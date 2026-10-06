@@ -1,0 +1,52 @@
+# cert-gen 설정 예제
+#
+# 이 파일은 **상태 디렉터리 안**에 config.toml 로 둔다.
+#   <상태 디렉터리>/config.toml
+#
+# 상태 디렉터리는 설정으로 정하지 않는다. 설정 파일이 그 안에 있으므로 순환이 된다.
+# 위치를 정하는 규칙은 세 가지뿐이다(위에서부터 우선).
+#   1. cert-gen --data-dir <경로> <명령>
+#   2. 환경변수 CERT_GEN_DATA_DIR
+#   3. <현재 디렉터리>/cert-gen-data        ← 기본값. Windows·리눅스가 같다
+# 'cert-gen where' 로 지금 어디를 쓰는지 확인할 수 있다.
+#
+# 개별 값은 환경변수로도 덮어쓸 수 있다: CERT_GEN_<SECTION>_<KEY>
+#   예) CERT_GEN_CERT_DEFAULT_DAYS=90
+#
+# 알 수 없는 키·섹션은 조용히 무시하지 않고 오류로 거부한다(오타 방지).
+
+[app]
+# 비우면 <상태 디렉터리>/backups 를 쓴다. 다른 디스크에 두고 싶을 때만 지정한다.
+# 백업에는 CA 개인키가 들어 있으므로 이 경로의 접근 권한도 CA 와 같은 수준으로 다룬다.
+# backup_dir = "/srv/backup/cert-gen"
+
+[ca]
+# CA 키 기본 알고리즘. rsa2048|rsa3072|rsa4096|ec-p256|ec-p384|ed25519
+default_key_algo = "ec-p384"
+# Root CA 유효기간(일). 기본 10년.
+default_days = 3650
+# CA 개인키를 패스프레이즈로 암호화한다.
+# 이 도구에는 앱 인증이 없다. 즉 이 패스프레이즈가 사실상 유일한 서명 권한 통제다.
+# false 로 두면 상태 디렉터리를 읽을 수 있는 사람이 곧 CA 다.
+encrypt_key = true
+# CRL 의 nextUpdate 까지의 일수.
+# CRL 은 배포 지점(CDP)을 넣지 않으므로, 검증하는 쪽이 파일을 직접 받아 쓴다.
+crl_next_update_days = 30
+
+[cert]
+# leaf 키 기본 알고리즘. 구형 Java·장비 호환을 위해 RSA 를 기본으로 둔다.
+default_key_algo = "rsa2048"
+# server | client | server+client
+default_profile = "server"
+# 기본 유효기간(일). 397 은 공인 CA 관례이며 사설 CA 에 강제되는 값은 아니다.
+default_days = 397
+# 상한. 이 값을 넘는 --days 는 거부된다.
+max_days = 3650
+# 시계 오차가 있는 장비에서 "아직 유효하지 않음" 을 피하기 위한 백데이트(분).
+backdate_minutes = 5
+
+[tools]
+# 교차 검증용 openssl 경로. 없으면 그 검사만 건너뛴다(발급·변환에는 영향 없다).
+#
+# PKCS#12·JKS·CRL 은 모두 cert-gen 이 직접 만든다. keytool 이나 JDK 는 필요하지 않다.
+openssl = "openssl"
