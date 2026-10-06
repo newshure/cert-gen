@@ -10,6 +10,11 @@
 - PEM / PKCS#12 / JKS / DER / Kubernetes `tls` Secret 으로 변환 → 변환 작업을 반복하지 않는다
 - **이미 쓰고 있는 CA 를 그 자리에서 사용** → 개인키를 옮기지 않고 발급할 수 있다
 
+# [사용 예제](https://wiki.theknowledges.net/ko/knowledge/security/certificate/cert-gen-man)
+
+CA 용 private key 생성 -> CA cert 생성 -> Server/client용 private key 생성 -> Server/client용 cert 생성의 기본 작업 흐름에 대한 예제
+
+
 ## 작업 구조
 
 ```
