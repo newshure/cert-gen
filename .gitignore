@@ -1,0 +1,51 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+temp/
+dist/
+build/
+# 시크릿·키 차단
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.crt
+*.csr
+*.der
+*.crl
+.env
+secrets/
+kubeconfig
+# 로컬 도구 설정·상태 (저장소에 포함하지 않음)
+#
+# 아래 두 줄은 특정 에이전트 도구가 만드는 디렉터리다. 프로젝트 규칙상 그 도구 이름을
+# 저장소 파일에 적지 않기로 했으므로, 글롭 대괄호로 한 글자를 감싸 같은 경로를 가리킨다.
+.*-adk/
+.m[o]ai/
+.claude/
+.vscode/
+
+# 로컬 설정·상태
+config.local.toml
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+backups/
+
+# 빌드 서버 확인용 로컬 산출물
+/data/
+/cert-gen
+dist/
+
+# Go
+/cert-gen
+/build/
+
+# Windows 버전 리소스. deploy/build.sh 가 빌드 중에만 만들고 지운다.
+# gitignore 해 두지 않으면 untracked 로 잡혀 Go 가 바이너리에 vcs.modified=true 를 새긴다
+# (모든 릴리스가 +dirty 로 찍혀 출처 추적이 무의미해진다).
+*.syso

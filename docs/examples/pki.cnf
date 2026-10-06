@@ -1,0 +1,47 @@
+[ req ]
+default_bits            = 4096
+default_md              = sha256
+default_keyfile         = ca.key
+distinguished_name      = req_distinguished_name
+x509_extensions         = v3_ca
+prompt                  = no
+
+[ v3_ca ]
+basicConstraints        = critical, CA:TRUE, pathlen:0
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid:always, issuer:always
+keyUsage                = critical, keyCertSign, cRLSign
+
+[ req_distinguished_name ]
+countryName             = KR
+organizationName        = HaeDong Inc.
+commonName              = HaeDong Root CA
+
+
+
+---
+
+[ req ]
+default_bits            = 2048
+default_md              = sha256
+distinguished_name      = req_distinguished_name
+req_extensions          = v3_req
+prompt                  = no
+
+[ v3_req ]
+basicConstraints        = CA:FALSE
+keyUsage                = critical, digitalSignature, keyEncipherment
+extendedKeyUsage        = serverAuth, clientAuth
+subjectAltName          = @alt_names
+
+[ alt_names ]
+DNS.1   = example.com
+DNS.2   = *.example.com
+DNS.3   = *.app.example.com
+IP.1    = 192.0.2.10
+
+[ req_distinguished_name ]
+countryName             = KR
+organizationName        = haedong Inc.
+organizationalUnitName  = haedong SSL Project
+commonName              = example.com
